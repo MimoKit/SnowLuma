@@ -16,4 +16,4 @@
 - 整理原生调用、SQLite、账号关闭和重连顺序，修复请求取消、订阅和定时器释放。
 - 减少 WebUI 空闲轮询，修复反向代理认证与版本比较。
 
-[查看自 v1.14.22 起的完整差异](https://github.com/SnowLuma/SnowLuma/compare/v1.14.22...dev)
+[查看自 v1.14.22 起的完整差异](https://github.com/MimoKit/SnowLuma/compare/v1.14.22...dev)

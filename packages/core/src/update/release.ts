@@ -84,7 +84,7 @@ export function parseReleaseAssetsPage(html: string, version: string) {
             links.some((link) => {
                 const href = attribute(link, 'href');
                 return (
-                    href === `/SnowLuma/SnowLuma/releases/download/v${version}/${candidate}` ||
+                    href === `/MimoKit/SnowLuma/releases/download/v${version}/${candidate}` ||
                     href === `${RELEASE_ROOT}/download/v${version}/${candidate}`
                 );
             }),
@@ -127,7 +127,7 @@ export async function fetchRelease(
     userAgent = 'SnowLuma',
     timeoutMs = 8_000,
 ): Promise<ReleaseResult> {
-    const apiUrl = `https://api.github.com/repos/SnowLuma/SnowLuma/releases/${version ? `tags/v${version}` : 'latest'}`;
+    const apiUrl = `https://api.github.com/repos/MimoKit/SnowLuma/releases/${version ? `tags/v${version}` : 'latest'}`;
     let primaryError: unknown;
 
     try {

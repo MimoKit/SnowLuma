@@ -1915,7 +1915,7 @@ function DeveloperPanel() {
 
 // ─────────────── 关于 ───────────────
 
-const REPO_URL = 'https://github.com/SnowLuma/SnowLuma';
+const REPO_URL = 'https://github.com/MimoKit/SnowLuma';
 
 function UpdateGroup() {
     const { updateInfo, refreshUpdate, resources } = useAppState();

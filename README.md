@@ -6,20 +6,20 @@ QQ 客户端的 TypeScript 互操作运行时。<br>
 OneBot v11 · WebUI · SDK · MCP
 
 <p>
-  <a href="https://github.com/SnowLuma/SnowLuma/releases"><img alt="最新版本" src="https://img.shields.io/github/v/release/SnowLuma/SnowLuma?label=release&style=flat-square"></a>
-  <a href="https://github.com/SnowLuma/SnowLuma/actions/workflows/dev-build.yml"><img alt="构建状态" src="https://img.shields.io/github/actions/workflow/status/SnowLuma/SnowLuma/dev-build.yml?branch=dev&style=flat-square&label=build"></a>
+  <a href="https://github.com/MimoKit/SnowLuma/releases"><img alt="最新版本" src="https://img.shields.io/github/v/release/MimoKit/SnowLuma?label=release&style=flat-square"></a>
+  <a href="https://github.com/MimoKit/SnowLuma/actions/workflows/dev-build.yml"><img alt="构建状态" src="https://img.shields.io/github/actions/workflow/status/MimoKit/SnowLuma/dev-build.yml?branch=dev&style=flat-square&label=build"></a>
   <a href="https://www.npmjs.com/package/@snowluma/sdk"><img alt="SnowLuma SDK 版本" src="https://img.shields.io/npm/v/%40snowluma%2Fsdk?style=flat-square&label=sdk&color=287fb8"></a>
   <a href="https://www.npmjs.com/package/@snowluma/mcp"><img alt="SnowLuma MCP 版本" src="https://img.shields.io/npm/v/%40snowluma%2Fmcp?style=flat-square&label=mcp&color=7658c7"></a>
   <a href="https://hub.docker.com/r/motricseven7/snowluma"><img alt="Docker 拉取次数" src="https://img.shields.io/docker/pulls/motricseven7/snowluma?style=flat-square&label=docker%20pulls"></a>
-  <a href="https://github.com/SnowLuma/SnowLuma/stargazers"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/SnowLuma/SnowLuma?style=flat-square"></a>
+  <a href="https://github.com/MimoKit/SnowLuma/stargazers"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/MimoKit/SnowLuma?style=flat-square"></a>
 </p>
 
 将 QQ 原生会话转换为 [OneBot v11](https://github.com/botuniverse/onebot-11) 动作与事件，通过 WebSocket、HTTP、WebUI、SDK 和 MCP 提供统一入口。
 
 多账号会话、消息与媒体、连接配置和实时日志，在一个运行时中管理。
 
-**[下载发行版](https://github.com/SnowLuma/SnowLuma/releases)** · **[快速开始](#快速开始)**<br>
-[部署指南](https://snowluma.github.io/zh/docs/guide/deploy) · [动作参考](https://snowluma.github.io/zh/docs/api) · [问题反馈](https://github.com/SnowLuma/SnowLuma/issues)
+**[下载发行版](https://github.com/MimoKit/SnowLuma/releases)** · **[快速开始](#快速开始)**<br>
+[部署指南](https://snowluma.github.io/zh/docs/guide/deploy) · [动作参考](https://snowluma.github.io/zh/docs/api) · [问题反馈](https://github.com/MimoKit/SnowLuma/issues)
 
 <sub>Windows x64 · Linux x64 / arm64</sub>
 
@@ -50,7 +50,7 @@ OneBot v11 · WebUI · SDK · MCP
 
 ## 快速开始
 
-1. 从 [Releases](https://github.com/SnowLuma/SnowLuma/releases) 下载对应平台的完整发行包并解压。Lite 版需 Node.js 24+。
+1. 从 [Releases](https://github.com/MimoKit/SnowLuma/releases) 下载对应平台的完整发行包并解压。Lite 版需 Node.js 24+。
 2. Windows 运行 `launcher.bat`；Linux 执行：
 
    ```bash
@@ -78,7 +78,7 @@ JSON 消息段接受标准的 `data.data` 字符串，也兼容 `data.data` 非�
 需要 Node.js 24+ 与 pnpm 11.25.0，日常开发基于 `dev` 分支：
 
 ```bash
-git clone https://github.com/SnowLuma/SnowLuma.git
+git clone https://github.com/MimoKit/SnowLuma.git
 cd SnowLuma
 git checkout dev
 pnpm install --frozen-lockfile
@@ -99,12 +99,12 @@ SnowLuma is source-available for study and non-commercial self-hosting, but it i
 
 ## 社区与鸣谢
 
-- [提交问题](https://github.com/SnowLuma/SnowLuma/issues)
+- [提交问题](https://github.com/MimoKit/SnowLuma/issues)
 - [QQ 群](https://qm.qq.com/q/g3UMLpWALe)
 - [Telegram](https://t.me/napcatqq)
 
 项目参考了 [LagrangeV2](https://github.com/LagrangeDev/LagrangeV2) 的协议定义与 [NapCatQQ](https://github.com/NapNeko/NapCatQQ) 的实现思路。
 
 <p align="center">
-  <a href="https://github.com/SnowLuma/SnowLuma/graphs/contributors"><img src="https://contrib.rocks/image?repo=SnowLuma/SnowLuma" alt="SnowLuma 贡献者" /></a>
+  <a href="https://github.com/MimoKit/SnowLuma/graphs/contributors"><img src="https://contrib.rocks/image?repo=MimoKit/SnowLuma" alt="SnowLuma 贡献者" /></a>
 </p>

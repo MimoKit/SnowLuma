@@ -5,7 +5,7 @@ import {
     type UpdateSourceConfig,
 } from '@snowluma/common/update-source';
 
-export const RELEASE_ROOT = 'https://github.com/SnowLuma/SnowLuma/releases';
+export const RELEASE_ROOT = 'https://github.com/MimoKit/SnowLuma/releases';
 export const DEFAULT_UPDATE_SOURCE: UpdateSourceConfig = {
     mode: 'auto',
     mirror: '',

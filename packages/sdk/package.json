@@ -14,13 +14,13 @@
     "bot",
     "sdk"
   ],
-  "homepage": "https://github.com/SnowLuma/SnowLuma#readme",
+  "homepage": "https://github.com/MimoKit/SnowLuma#readme",
   "bugs": {
-    "url": "https://github.com/SnowLuma/SnowLuma/issues"
+    "url": "https://github.com/MimoKit/SnowLuma/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SnowLuma/SnowLuma.git",
+    "url": "git+https://github.com/MimoKit/SnowLuma.git",
     "directory": "packages/sdk"
   },
   "license": "SEE LICENSE IN LICENSE",

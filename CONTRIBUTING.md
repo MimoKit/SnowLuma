@@ -10,7 +10,7 @@
 
 SnowLuma 处于开发早期，迭代速度很快，**接口与目录结构随时可能变化**。如果你打算做较大的改动，强烈建议先在 issue 或者社群里和维护者对齐一下方向，避免做了一半发现已经被另一条路替代。
 
-提交 PR 前，必须先通过 [GitHub 网页模板](https://github.com/SnowLuma/SnowLuma/issues/new/choose) 提交对应 issue，或认领已有的对应 issue。可以只提 issue；提交 PR 是可选的后续步骤。
+提交 PR 前，必须先通过 [GitHub 网页模板](https://github.com/MimoKit/SnowLuma/issues/new/choose) 提交对应 issue，或认领已有的对应 issue。可以只提 issue；提交 PR 是可选的后续步骤。
 
 不知道从哪里入手？以下几类贡献最容易被合并：
 
@@ -165,7 +165,7 @@ git push origin fix/onebot-mention-encoding
 - 测试方式（你跑了什么、怎么验证有效）。
 - 必填的 issue 关联标记，例如 `Refs #123` 或 `Closes #123`；也支持 GitHub 的 `Fixes`、`Resolves` 等关闭关键词。
 
-关联标记必须写在 PR 正文中；HTML 注释、代码示例和引用块不计入。支持 `#123`、`SnowLuma/SnowLuma#123` 和本仓库 issue 的完整链接，前面均需带上述关键词。
+关联标记必须写在 PR 正文中；HTML 注释、代码示例和引用块不计入。支持 `#123`、`MimoKit/SnowLuma#123` 和本仓库 issue 的完整链接，前面均需带上述关键词。
 
 自动检查要求至少一个关联对象是真实的本仓库 issue，先于 PR 创建、仍处于开放状态，并通过现有 issue 模板规则：带有 `bug` / `enhancement` 标签，或属于该规则已有的维护者身份豁免。不存在的编号、另一个 PR、已关闭或模板不合规的 issue 都不算。**所有 PR 都必须满足目标分支和 issue 关联要求，包括维护者与机器人提交的 PR。**
 

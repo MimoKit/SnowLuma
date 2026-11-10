@@ -14,7 +14,7 @@ function fixture() {
   const issue = {
     number: 42,
     state: 'open',
-    html_url: 'https://github.com/SnowLuma/SnowLuma/issues/42',
+    html_url: 'https://github.com/MimoKit/SnowLuma/issues/42',
     created_at: '2026-11-01T09:00:00Z',
     author_association: 'NONE',
     labels: [{ name: 'bug' }],
@@ -31,7 +31,7 @@ function fixture() {
     requests: 0,
   };
   const context = {
-    repo: { owner: 'SnowLuma', repo: 'SnowLuma' },
+    repo: { owner: 'MimoKit', repo: 'SnowLuma' },
     issue: { number: 100 },
     serverUrl: 'https://github.com',
   };
@@ -102,9 +102,9 @@ for (const body of [
   'Resolved #42',
   'This change fixes #42.',
   'CLOSES: #42',
-  'Refs SnowLuma/SnowLuma#42',
-  'Refs snowluma/snowluma#42',
-  'Refs https://github.com/SnowLuma/SnowLuma/issues/42',
+  'Refs MimoKit/SnowLuma#42',
+  'Refs mimokit/snowluma#42',
+  'Refs https://github.com/MimoKit/SnowLuma/issues/42',
 ]) {
   test(`accepts a real issue reference: ${body}`, async () => {
     const f = fixture();
@@ -127,8 +127,8 @@ for (const body of [
   'Refs #9007199254740993',
   'Refs other/repo#42',
   'Refs https://github.com/other/repo/issues/42',
-  'Refs https://example.org/SnowLuma/SnowLuma/issues/42',
-  'Refs https://github.com/SnowLuma/SnowLuma/pull/42',
+  'Refs https://example.org/MimoKit/SnowLuma/issues/42',
+  'Refs https://github.com/MimoKit/SnowLuma/pull/42',
   'Refs https://%',
   '<!-- Closes #42 -->',
   '<!-- Closes #42',

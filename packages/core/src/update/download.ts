@@ -39,7 +39,7 @@ async function releaseAsset(
         (item: unknown) =>
             item !== null && typeof item === 'object' && 'name' in item && item.name === name,
     );
-    const url = `https://github.com/SnowLuma/SnowLuma/releases/download/v${version}/${name}`;
+    const url = `https://github.com/MimoKit/SnowLuma/releases/download/v${version}/${name}`;
 
     if (
         !asset ||
