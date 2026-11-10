@@ -1,0 +1,180 @@
+name: Docker Image
+
+# Builds the full SnowLuma runtime image (Linux QQ + Xvfb + VNC/noVNC) from the
+# Linux archives of a published release. release.yml calls this after the
+# GitHub Release exists; dispatch it by hand to rebuild any published tag.
+#
+# The official Docker release of the upstream project lives in a separate
+# repository and its dispatcher needs a PAT, so this fork builds and pushes its
+# own image with the workflow token instead.
+
+on:
+  workflow_call:
+    inputs:
+      snowluma_tag:
+        description: SnowLuma release tag to bake into the image (e.g. v2.4.2)
+        type: string
+        required: true
+      image:
+        description: Target image under ghcr.io (defaults to ghcr.io/<owner>/snowluma)
+        type: string
+        required: false
+        default: ''
+      platforms:
+        description: Comma separated target platforms
+        type: string
+        required: false
+        default: 'linux/amd64,linux/arm64'
+      qq_release:
+        description: Rodert/qq-versions release providing the Linux QQ packages
+        type: string
+        required: false
+        default: 'qq-packages-20260813-1d08f1d4'
+  workflow_dispatch:
+    inputs:
+      snowluma_tag:
+        description: SnowLuma release tag to bake into the image (e.g. v2.4.2)
+        type: string
+        required: true
+      image:
+        description: Target image under ghcr.io (defaults to ghcr.io/<owner>/snowluma)
+        type: string
+        required: false
+        default: ''
+      platforms:
+        description: Comma separated target platforms
+        type: string
+        required: false
+        default: 'linux/amd64,linux/arm64'
+      qq_release:
+        description: Rodert/qq-versions release providing the Linux QQ packages
+        type: string
+        required: false
+        default: 'qq-packages-20260813-1d08f1d4'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Resolve image reference
+        id: image
+        env:
+          INPUT_IMAGE: ${{ inputs.image }}
+        run: |
+          set -euo pipefail
+          image="${INPUT_IMAGE}"
+          if [ -z "${image}" ]; then
+            owner="$(printf '%s' "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')"
+            image="ghcr.io/${owner}/snowluma"
+          fi
+          case "${image}" in
+            ghcr.io/*) ;;
+            *)
+              echo "Only ghcr.io targets are supported; this workflow authenticates with the repository token." >&2
+              exit 1
+              ;;
+          esac
+          echo "image=${image}" >> "${GITHUB_OUTPUT}"
+
+      # The archives are the release's own output, so the image never rebuilds
+      # the project. The full archive is used because it carries the Node.js
+      # build pinned in .node-version, matching what the release was tested on.
+      - name: Download SnowLuma release archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SNOWLUMA_TAG: ${{ inputs.snowluma_tag }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/snowluma
+          for entry in amd64:linux-x64 arm64:linux-arm64; do
+            arch="${entry%%:*}"
+            asset_arch="${entry##*:}"
+            gh release download "${SNOWLUMA_TAG}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --pattern "SnowLuma-${SNOWLUMA_TAG}-${asset_arch}.tar.gz" \
+              --output "build/snowluma/${arch}.tar.gz" \
+              --clobber
+          done
+          ls -lh build/snowluma
+
+      # Tencent purges retired builds from its CDN within weeks, so a pinned CDN
+      # URL stops working long before the image is rebuilt. The mirror release
+      # keeps the packages and publishes SHA256SUMS.txt next to them.
+      - name: Download Linux QQ packages
+        env:
+          QQ_RELEASE: ${{ inputs.qq_release }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/qq
+          base="https://github.com/Rodert/qq-versions/releases/download/${QQ_RELEASE}"
+          curl -fsSL --retry 3 --retry-delay 5 -o build/qq/SHA256SUMS.txt "${base}/SHA256SUMS.txt"
+
+          for arch in amd64 arm64; do
+            name="$(grep -oE "QQ_[0-9.]+_[0-9]+_${arch}_01\.deb" build/qq/SHA256SUMS.txt | sort -V | tail -n1)"
+            if [ -z "${name}" ]; then
+              echo "No ${arch} package in ${QQ_RELEASE}/SHA256SUMS.txt" >&2
+              exit 1
+            fi
+            expected="$(awk -v asset="${name}" '$2 == asset { print $1 }' build/qq/SHA256SUMS.txt)"
+            echo "Fetching ${name}"
+            curl -fsSL --retry 3 --retry-delay 5 -o "build/qq/${arch}.deb" "${base}/${name}"
+            actual="$(sha256sum "build/qq/${arch}.deb" | awk '{ print $1 }')"
+            if [ "${expected}" != "${actual}" ]; then
+              echo "SHA256 mismatch for ${name}: expected ${expected}, got ${actual}" >&2
+              exit 1
+            fi
+          done
+          rm -f build/qq/SHA256SUMS.txt
+          ls -lh build/qq
+
+      - name: Stage build context
+        run: |
+          set -euo pipefail
+          cp deploy/docker/Dockerfile build/Dockerfile
+          cp deploy/docker/start.sh build/start.sh
+          cp deploy/docker/supervisord.conf build/supervisord.conf
+          ls -lh build
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ steps.image.outputs.image }}
+          tags: |
+            type=raw,value=${{ inputs.snowluma_tag }}
+            type=raw,value=latest
+            type=sha,format=short,prefix=sha-
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: build
+          file: build/Dockerfile
+          platforms: ${{ inputs.platforms }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            SNOWLUMA_VERSION=${{ inputs.snowluma_tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
