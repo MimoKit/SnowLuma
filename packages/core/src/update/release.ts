@@ -59,7 +59,10 @@ export function parseLatestReleasePage(html: string) {
     }
 
     const url = new URL(canonical, 'https://github.com');
-    const tag = /^\/SnowLuma\/SnowLuma\/releases\/tag\/([^/]+)$/.exec(url.pathname)?.[1];
+    // Derive the expected path from RELEASE_ROOT so the repository is named once.
+    const tagPath = `${new URL(RELEASE_ROOT).pathname}/tag/`;
+    const candidate = url.pathname.startsWith(tagPath) ? url.pathname.slice(tagPath.length) : '';
+    const tag = candidate && !candidate.includes('/') ? candidate : undefined;
     const decoded = tag && decodeURIComponent(tag);
     const version = decoded?.startsWith('v') ? decoded.slice(1) : undefined;
     const parsed = parseVersion(version);
