@@ -21,6 +21,9 @@ concurrency:
 
 jobs:
   publish:
+    # npm Trusted Publishing is bound to the canonical repository; a fork
+    # cannot publish these packages and must not try.
+    if: github.repository == 'SnowLuma/SnowLuma'
     name: Build and publish UI
     runs-on: ubuntu-latest
     environment: SnowLuma
